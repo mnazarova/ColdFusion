@@ -12,15 +12,7 @@
                 <cfinclude template="loginform.cfm">
                 <cfabort>
             <cfelse>
-                <cfif cflogin.name IS "" OR cflogin.password IS "">
-                    <cfoutput>
-                        <h2>You must enter text in both the User Name
-                            and Password fields.
-                        </h2>
-                    </cfoutput>
-                    <cfinclude template="loginform.cfm">
-                    <cfabort>
-                <cfelse>
+
                     <cfquery name="roles_query" dataSource="DB">
                         SELECT name
                         FROM role r
@@ -45,32 +37,20 @@
                     <cfif roles NEQ "">
                         <cfloginuser name="#cflogin.name#" Password = "#cflogin.password#"
                                 roles="#trim(roles)#">
-                        <!---<cflocation url="index.cfm" addToken="false" statusCode="301">--->
                     <cfelse>
                         <cfoutput>
                             <div class="bg-danger text-white text-center pb-1 mb-3">
                                 Вы ввели неверное имя и/или пароль. Попробуйте снова!
                             </div>
-
-                            <!---<H2>Your login information is not valid.<br>
-                                Please Try again</H2>--->
                         </cfoutput>
                         <cfinclude template="loginform.cfm">
                         <cfabort>
                     </cfif>
-                </cfif>
             </cfif>
         </cflogin>
         <cfif GetAuthUser() NEQ "">
             <cfoutput>
-                <!---<form action="securitytest.cfm" method="Post">
-                    <input type="submit" Name="Logout" value="Logout">
-                </form>--->
-                <!---<cflocation url="errorList.cfm" addToken="false" statusCode="301">--->
-
-
                 <cfinclude template="Menu.cfm">
-
             </cfoutput>
         </cfif>
     </cffunction>

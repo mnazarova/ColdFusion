@@ -1,23 +1,17 @@
-<!---<cfdump var="#url#" label="URL Scope" />--->
-<!--- QUERIES --->
-
 <cfif isDefined("url.error_id")>
-    <!---<cfif cgi.request_method IS "get">--->
-        <cfquery name="errorInfo" datasource="DB">
-            SELECT *
-            FROM error
-            WHERE error_id = <cfqueryparam cfsqltype="cf_sql_integer" value="#url.error_id#" />
-        </cfquery>
-        <cfquery datasource="DB" name="errorHistory">
-            SELECT h.date, h.comment, h.error_id, h.status_id,
-                s.name as statusName, usr.surname || ' ' || usr.name as userName
-            FROM history h
-            JOIN status s on h.status_id = s.status_id
-            JOIN usercf usr on h.user_id = usr.user_id
-            WHERE h.error_id = <cfqueryparam cfsqltype="cf_sql_integer" value="#url.error_id#" />
-        </cfquery>
-    <!---<cfdump var="#statusOptions#" label="URL Scope" />--->
-    <!---</cfif>--->
+    <cfquery name="errorInfo" datasource="DB">
+        SELECT *
+        FROM error
+        WHERE error_id = <cfqueryparam cfsqltype="cf_sql_integer" value="#url.error_id#" />
+    </cfquery>
+    <cfquery datasource="DB" name="errorHistory">
+        SELECT h.date, h.comment, h.error_id, h.status_id,
+            s.name as statusName, usr.surname || ' ' || usr.name as userName
+        FROM history h
+        JOIN status s on h.status_id = s.status_id
+        JOIN usercf usr on h.user_id = usr.user_id
+        WHERE h.error_id = <cfqueryparam cfsqltype="cf_sql_integer" value="#url.error_id#" />
+    </cfquery>
 
 
     <cfif errorInfo.recordcount IS 1>
@@ -36,43 +30,30 @@
         </CFSTOREDPROC>
 
 
-            <cfif errorHistory.recordcount IS 0>
-                <!---<div class="mt-4">
-                    <h4 class="text-center alert alert-info m-0 py-5">
-                        <b class="text-justify">
-                            На данный момент не создано ни одной ошибки.<br>
-                            Чтобы занести в систему первую - перейдите на страницу "<a class="" href="cardOfError.cfm">Ввод новой ошибки</a>".
-                        </b>
-                    </h4>
-                </div>--->
-            <cfelse>
+        <div class="p-0 my-3 card col-md-10 mx-auto border-info">
+            <div class="font-weight-bold h4 text-center mt-5">История ошибки<!--- № #errorHistory.error_id#---></div>
+            <table class="my-3 table table-hover table-responsive-sm table-striped">
+                <thead>
+                <tr>
+                    <th class="text-center border-white">Дата</th>
+                    <th class="text-center border-white">Комментарий</th>
+                    <th class="text-center border-white">Пользователь</th>
+                    <th class="text-center border-white">Статус</th>
+                </tr>
+                </thead>
 
-                    <div class="p-0 my-3 card col-md-10 mx-auto border-info">
-                    <div class="font-weight-bold h4 text-center mt-5">История ошибки<!--- № #errorHistory.error_id#---></div>
-                    <table class="my-3 table table-hover table-responsive-sm table-striped">
-                    <thead>
-                    <tr>
-                        <th class="text-center border-white">Дата</th>
-                        <th class="text-center border-white">Комментарий</th>
-                        <th class="text-center border-white">Пользователь</th>
-                        <th class="text-center border-white">Статус</th>
-                    </tr>
-                    </thead>
-
-                    <cfoutput query="errorHistory">
-                    <tbody>
-                            <tr>
-                            <td class="text-center border-info">#dateFormat(errorHistory.date,"dd.mm.yyyy")#</td>
-                            <td class="text-center border-info">#errorHistory.comment#</td>
-                            <td class="text-center border-info">#errorHistory.userName#</td>
-                            <td class="text-center border-info">#errorHistory.statusName#</td>
-                            </tr>
-                    </tbody>
-                    </cfoutput>
-
-                    </table>
-                </div>
-            </cfif>
+                <cfoutput query="errorHistory">
+                <tbody>
+                        <tr>
+                        <td class="text-center border-info">#dateFormat(errorHistory.date,"dd.mm.yyyy")#</td>
+                        <td class="text-center border-info">#errorHistory.comment#</td>
+                        <td class="text-center border-info">#errorHistory.userName#</td>
+                        <td class="text-center border-info">#errorHistory.statusName#</td>
+                        </tr>
+                </tbody>
+                </cfoutput>
+            </table>
+        </div>
 
 
 
@@ -125,7 +106,7 @@
                         selected="#errorInfo.urgency_id#"
                         required = "Yes"
                         queryPosition="Below"
-                        readonly>
+                        readonly="true">
                 </cfselect>
                 </div>
 
@@ -180,11 +161,6 @@
             </cfoutput>
         </div>
 
-
-
-
-
-
     <cfelse>
         <div class="p-0 m-5 card border-dark">
             <h3 class="text-center alert alert-warning m-0 py-5">
@@ -232,26 +208,7 @@
                             name="status_id"
                             required = "Yes"
                             queryPosition="Below">
-
-                    <!---<cfselect id="labelStatus"
-                            class="form-control border-dark"
-                            name="status"
-                            <!---options="#statusOptions#"--->
-                            required="true">--->
-                        <!---<option selected>Выберите статус ошибки...</option>--->
-                        <!---<cfoutput query="statusOptions">--->
-                            <!---<option>#statusOptions.name#</option>--->
-                        <!---</cfoutput>--->
                     </cfselect>
-                    <!---<select id="labelStatus"
-                            class="form-control border-dark"
-                            name="status"
-                            required>
-                        <!---<option selected>Выберите статус ошибки...</option>--->
-                        <cfoutput query="statusOptions">
-                            <option>#statusOptions.name#</option>
-                        </cfoutput>
-                    </select>--->
                 </div>
             </div>
 
@@ -266,9 +223,6 @@
                             name="urgency_id"
                             required = "Yes"
                             queryPosition="Below">
-                        <!---<cfoutput query="urgencyOptions">
-                            <option>#urgencyOptions.name#</option>
-                        </cfoutput>--->
                     </cfselect>
                 </div>
 
@@ -282,10 +236,6 @@
                             name="criticalness_id"
                             required = "Yes"
                             queryPosition="Below">
-                        <!---<option selected>Выберите уровень критичности...</option>--->
-                        <!---<cfoutput query="criticalnessOptions">
-                            <option>#criticalnessOptions.name#</option>
-                        </cfoutput>--->
                     </cfselect>
                 </div>
             </div>
@@ -303,7 +253,6 @@
 
 
             <div class="form-group mt-3">
-                <!---<a class="btn btn-outline-primary btn-block" href="errorList.cfm">Сохранить</a>--->
                 <input class="btn btn-outline-primary btn-block" type="submit" value="Добавить запись"
                        id="btn_form_submit" name="btn_form_submit">
             </div>
@@ -317,9 +266,7 @@
     $(function(){
         $status_name = $( "#labelStatus option:selected" ).text(); // начальный статус
         $oldForm = Object.assign($('form#editErrorForm')[0]);
-        // console.log($oldForm);
 
-        // bind change event to select
         $('#labelStatus').on('change', function () {
             var option = $( "#labelStatus option:selected" ).text(); // текущий (выбранный) статус
             if ($status_name == option){
@@ -342,32 +289,10 @@
                 return;
             }
 
-            // console.log($('form#editErrorForm')[0])
-            // console.log($('form#editErrorForm')[0] == $oldForm)
             if ($("#labelComment").val() == "") {
                 alert("Для сохранения необходимо заполнить поле 'Комментарий'");
                 e.preventDefault();
-                // return;
             }
-
-            /*if ($('form#editErrorForm')[0] === $oldForm){
-                $.ajax({
-                    url: './editErrorAction.cfm',         // Куда отправить запрос
-                    method: 'POST',             // Метод запроса (post или get)
-                    dataType: 'text',          // Тип данных в ответе (xml, json, script, html).
-                    data: {form: "test"},     // Данные передаваемые в массиве
-                    success: function(data){
-                        alert("777");
-                        alert(data);
-                    },
-                    error: function(data) {
-                        alert("---");
-                        alert(data);
-                    }
-                });
-            }*/
-            // alert("123");
-            // validationJV();
         });
     });
 </script>

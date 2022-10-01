@@ -8,10 +8,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
-    <!---<script type="text/javascript" src="C:\ColdFusion2021\cfusion\wwwroot\cf_scripts\scripts\ajax\yui\yahoo-dom-event"></script>--->
-
-<!---<script src="http://code.jquery.com/jquery-1.11.0.js"></script>--->
-<!---<cfajaxproxy cfc="DAO" jsclassname="DAOProxy">--->
 </head>
 <body>
 
@@ -27,40 +23,31 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.cfm">
+                        <a class="nav-link" href="errorList.cfm">
                             <i class="fa fa-list-alt"></i>
                             Список ошибок
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="addUser.cfm">
-                            <i class="fa fa-user-plus"></i>
-                            Создание нового пользователя
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="userList.cfm">
-                            <i class="fa fa-users"></i>
-                            Список пользователей
-                        </a>
-                    </li>
-
-                    <!---<li class="nav-item">
-
-                            <i class="nav-link fa fa-sign-out"></i>
-                            <input class="nav-link" type="submit" Name="Logout" value="Выйти">
-                            <!---<a class="nav-link" href="logoutForm.cfm">
-                                <i class="fa fa-sign-out"></i>
-                                Выйти
-                            </a>--->
-                    </li>--->
-
-                    <!---<li class="nav-item"><h4>|</h4></li>--->
+                    <cfif IsUserInRole("admin")>
+                        <li class="nav-item">
+                            <a class="nav-link" href="addUser.cfm">
+                                <i class="fa fa-user-plus"></i>
+                                Создание нового пользователя
+                            </a>
+                        </li>
+                    </cfif>
+                    <cfif IsUserInRole("admin")>
+                        <li class="nav-item">
+                            <a class="nav-link" href="userList.cfm">
+                                <i class="fa fa-users"></i>
+                                Список пользователей
+                            </a>
+                        </li>
+                    </cfif>
 
                     <li class="nav-item">
                         <form method="Post">
-
-                        <input class="btn btn-outline-secondary" type="submit" Name="Logout" value="Выйти">
+                        &nbsp;<input class="btn btn-outline-secondary" type="submit" Name="Logout" value="Выйти">
                         </form>
                     </li>
 

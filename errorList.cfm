@@ -1,9 +1,6 @@
-<cflocation url="errorList.cfm" addToken="false" statusCode="301">
-
 <cfif !isDefined("form.FIELDNAMES")>
     <cfset form.FIELDNAMES = "error_id" />
 </cfif>
-
 <cfquery datasource="DB" name="errors">
     SELECT error_id, date, short_description, s.name as STATUSNAME, u.name as urgencyName,
     c.name as criticalnessName, usr.surname || ' ' || usr.name as userName

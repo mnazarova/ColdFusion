@@ -1,16 +1,4 @@
-<!---<cfdump var="#url#" label="URL Scope" />--->
-
-<!---<cfquery name="qArt" datasource="DB">
-SELECT *
-FROM usercf
-WHERE user_id = <cfqueryparam cfsqltype="cf_sql_integer" value="#url.user_id#" />
-</cfquery>--->
-<!---<cfdump var="#qArt#" />--->
-
-<cfif cgi.request_method IS "post" AND structKeyExists(form, "edit_user_form_submit")>
-    <!---<cfdump var="#form#" label="URL Scope" />--->
-
-    <!--- TO DO CHECK --->
+<cfif IsUserInRole("admin") AND cgi.request_method IS "post" AND structKeyExists(form, "edit_user_form_submit")>
     <cfupdate datasource="DB" tablename="usercf" formFields="user_id,name,surname" />
 
     <cfoutput>
