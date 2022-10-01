@@ -99,8 +99,6 @@
         function validationJV(){
             $( "#addUserForm" ).validate({
                 rules: {
-                    // name: "required",
-                    // email: "email",
                     password: "required",
                     confirmPassword: {
                         equalTo: "#password"

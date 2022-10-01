@@ -46,9 +46,7 @@
                     </cfif>
 
                     <li class="nav-item">
-                        <form method="Post">
-                        &nbsp;<input class="btn btn-outline-secondary" type="submit" Name="Logout" value="Выйти">
-                        </form>
+                        <form method="Post">&nbsp;<input class="btn btn-outline-secondary" type="submit" Name="Logout" value="Выйти"></form>
                     </li>
 
                 </ul>
