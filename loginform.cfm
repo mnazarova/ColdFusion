@@ -15,7 +15,6 @@
             </div>
             <hr>
 
-            <cfoutput>
                 <form method="Post">
                     <div class="form-group">
                         <label for="j_username">Имя</label>
@@ -41,7 +40,6 @@
                         <input class="btn btn-outline-info btn-block" type="submit" value="Войти">
                     </div>
                 </form>
-            </cfoutput>
 
         </div>
 

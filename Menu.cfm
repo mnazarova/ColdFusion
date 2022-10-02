@@ -23,7 +23,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="errorList.cfm">
+                        <a class="nav-link" href="index.cfm">
                             <i class="fa fa-list-alt"></i>
                             Список ошибок
                         </a>

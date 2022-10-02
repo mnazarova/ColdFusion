@@ -11,6 +11,7 @@
                 <b>Новая учётная запись не была создана, логин #form.login# уже используется.</b>
             </div>
         <cfelse>
+            <cfset form.password = hash(password)>
             <cfinsert datasource="DB" tablename="usercf" formFields="login,name,surname,password" />
             <cfquery name="user" dataSource="DB">
                 INSERT INTO user_role (role_id, user_id)
@@ -71,7 +72,8 @@
                            class="form-control border-dark"
                            name="name"
                            id="name"
-                           placeholder="введите имя">
+                           placeholder="введите имя"
+                           required>
                 </div>
 
                 <div class="form-group col-md-6">
@@ -80,7 +82,8 @@
                            class="form-control border-dark"
                            name="surname"
                            id="surname"
-                           placeholder="введите фамилию">
+                           placeholder="введите фамилию"
+                           required>
                 </div>
             </div>
 
@@ -94,22 +97,6 @@
         </div>
 
     </div>
-
-    <script>
-        function validationJV(){
-            $( "#addUserForm" ).validate({
-                rules: {
-                    password: "required",
-                    confirmPassword: {
-                        equalTo: "#password"
-                    }
-                }
-            });
-        }
-        $(document).on( "click", "#add_user_form_submit", function(e) {
-            validationJV();
-        });
-    </script>
 
 <cfelse>
 

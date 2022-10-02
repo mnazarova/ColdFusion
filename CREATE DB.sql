@@ -2,6 +2,10 @@
 -- PostgreSQL database
 --
 
+--DROP FUNCTION GetOptionsByStatusId (id int);
+--DROP TRIGGER update_modification_mod_date_error ON error;
+--DROP FUNCTION update_modification_date();
+
 --DROP TABLE history;
 --DROP TABLE error;
 --DROP TABLE user_role;
@@ -14,8 +18,8 @@
 CREATE TABLE userCF (
 user_id serial,
 login CHARACTER VARYING(255) NOT NULL,
-name CHARACTER VARYING(255),
-surname CHARACTER VARYING(255),
+name CHARACTER VARYING(255) NOT NULL,
+surname CHARACTER VARYING(255) NOT NULL,
 password CHARACTER VARYING(255) NOT NULL,
 CONSTRAINT user_id_pk PRIMARY KEY(user_id),
 CONSTRAINT login_unique UNIQUE (login)
@@ -65,7 +69,7 @@ CREATE TABLE error (
 error_id serial,
 date timestamp DEFAULT CURRENT_TIMESTAMP,
 short_description CHARACTER VARYING(255) NOT NULL,
-long_description CHARACTER VARYING(5000),
+long_description CHARACTER VARYING(5000) NOT NULL,
 user_id bigint NOT NULL,
 status_id bigint NOT NULL,
 urgency_id bigint NOT NULL,
@@ -101,8 +105,11 @@ CONSTRAINT fk_error_id FOREIGN KEY(error_id)
 REFERENCES error(error_id) ON DELETE CASCADE
 );
 
-INSERT INTO usercf (login, name, surname, password) VALUES ('user', 'Марина', 'Головкина', '777');
-INSERT INTO usercf (login, password) VALUES ('admin', '123');
+--- password = '777'
+INSERT INTO usercf (login, name, surname, password) VALUES ('user', 'Марина', 'Головкина', 'F1C1592588411002AF340CBAEDD6FC33');
+
+--- password = '123'
+INSERT INTO usercf (login, surname, name, password) VALUES ('admin', 'Назарова', 'Мария', '202CB962AC59075B964B07152D234B70');
 
 INSERT INTO role (name) VALUES ('user');
 INSERT INTO role (name) VALUES ('admin');
@@ -126,8 +133,6 @@ INSERT INTO criticalness (name) VALUES ('Критичная');
 INSERT INTO criticalness (name) VALUES ('Некритичная');
 INSERT INTO criticalness (name) VALUES ('Запрос на изменение');
 
-
---DROP FUNCTION update_modification_date()
 CREATE OR REPLACE FUNCTION public.update_modification_date()
 RETURNS trigger AS
 $BODY$
@@ -139,14 +144,12 @@ $BODY$
 LANGUAGE plpgsql VOLATILE
 COST 100;
 
---DROP TRIGGER update_modification_mod_date_error ON error;
 CREATE TRIGGER update_modification_mod_date_error
 BEFORE UPDATE
 ON error
 FOR EACH ROW
 EXECUTE PROCEDURE public.update_modification_date();
 
---DROP FUNCTION GetOptionsByStatusId (id int);
 CREATE OR REPLACE FUNCTION GetOptionsByStatusId(id int) 
 RETURNS SETOF status AS
 $BODY$
@@ -170,4 +173,4 @@ BEGIN
 	RETURN;
 END
 $BODY$
-LANGUAGE 'plpgsql'
+LANGUAGE 'plpgsql';

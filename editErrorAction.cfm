@@ -11,7 +11,7 @@
     <cfinsert datasource="DB" tablename="history"
         formFields="status_id,comment,user_id,error_id">
 
-    <cfdump var="#form#" label="URL Scope" />
+    <!---<cfdump var="#form#" label="URL Scope" />--->
     <cflocation url="cardOfError.cfm?error_id=#form.error_id#" addToken="false" statusCode="301">
 
 </cfif>

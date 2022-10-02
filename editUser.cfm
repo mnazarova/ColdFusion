@@ -1,6 +1,5 @@
 <cfif IsUserInRole("admin")>
 
-    <!---<cfdump var="#url#" label="URL Scope" />--->
     <cfif cgi.request_method IS "get" AND isDefined("url.user_id")>
         <cfquery name="userInfo" datasource="DB">
         SELECT *

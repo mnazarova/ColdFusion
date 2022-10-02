@@ -12,7 +12,7 @@
                 <cfinclude template="loginform.cfm">
                 <cfabort>
             <cfelse>
-
+                    <cfset password = hash(#cflogin.password#)>
                     <cfquery name="roles_query" dataSource="DB">
                         SELECT name
                         FROM role r
@@ -24,7 +24,7 @@
                                 FROM usercf
                                 WHERE
                                     login = '#cflogin.name#'
-                                AND password = '#cflogin.password#'
+                                AND password = '#password#'
                             )
                         )
                     </cfquery>
@@ -35,23 +35,19 @@
                             roles = roles.concat(",#roles_query.name[count--]#");
                     </cfscript>
                     <cfif roles NEQ "">
-                        <cfloginuser name="#cflogin.name#" Password = "#cflogin.password#"
+                        <cfloginuser name="#cflogin.name#" Password = "#password#"
                                 roles="#trim(roles)#">
                     <cfelse>
-                        <cfoutput>
-                            <div class="bg-danger text-white text-center pb-1 mb-3">
-                                Вы ввели неверное имя и/или пароль. Попробуйте снова!
-                            </div>
-                        </cfoutput>
+                        <div class="bg-danger text-white text-center pb-1 mb-3">
+                            Вы ввели неверное имя и/или пароль. Попробуйте снова!
+                        </div>
                         <cfinclude template="loginform.cfm">
                         <cfabort>
                     </cfif>
             </cfif>
         </cflogin>
         <cfif GetAuthUser() NEQ "">
-            <cfoutput>
-                <cfinclude template="Menu.cfm">
-            </cfoutput>
+            <cfinclude template="Menu.cfm">
         </cfif>
     </cffunction>
 </cfcomponent>

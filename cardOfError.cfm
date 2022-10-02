@@ -31,8 +31,8 @@
 
 
         <div class="p-0 my-3 card col-md-10 mx-auto border-info">
-            <div class="font-weight-bold h4 text-center mt-5">История ошибки<!--- № #errorHistory.error_id#---></div>
-            <table class="my-3 table table-hover table-responsive-sm table-striped">
+            <div class="font-weight-bold h4 text-center my-5">История ошибки<!--- № #errorHistory.error_id#---></div>
+            <table class="m-0 table table-hover table-responsive-sm table-striped">
                 <thead>
                 <tr>
                     <th class="text-center border-white">Дата</th>
@@ -46,7 +46,14 @@
                 <tbody>
                         <tr>
                         <td class="text-center border-info">#dateFormat(errorHistory.date,"dd.mm.yyyy")#</td>
-                        <td class="text-center border-info">#errorHistory.comment#</td>
+                        <td class="text-center border-info">
+                        <textarea class="form-control border-dark"
+                                  name="comment"
+                                  id="labelComment"
+                                  rows="3"
+                                  cols="5"
+                                  readonly>#errorHistory.comment#</textarea>
+                        </td>
                         <td class="text-center border-info">#errorHistory.userName#</td>
                         <td class="text-center border-info">#errorHistory.statusName#</td>
                         </tr>
@@ -245,7 +252,8 @@
                     <label class="font-weight-bold" for="labelLongName">Подробное описание</label>
                     <textarea class="form-control border-dark"
                               name="long_description"
-                              id="labelLongName" rows="5"></textarea>
+                              id="labelLongName" rows="5"
+                              required></textarea>
                 </div>
             </div>
 
