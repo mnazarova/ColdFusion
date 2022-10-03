@@ -48,8 +48,6 @@
                         <td class="text-center border-info">#dateFormat(errorHistory.date,"dd.mm.yyyy")#</td>
                         <td class="text-center border-info">
                         <textarea class="form-control border-dark"
-                                  name="comment"
-                                  id="labelComment"
                                   rows="3"
                                   cols="5"
                                   readonly>#errorHistory.comment#</textarea>
